@@ -1,4 +1,4 @@
 export interface ActionInputs {
-  bool1: boolean;
-  bool2: boolean;
+  filePath: string;
+  regex: string;
 }

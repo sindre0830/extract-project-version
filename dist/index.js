@@ -55,8 +55,9 @@ const utils_1 = __nccwpck_require__(1440);
 function execute() {
     return __awaiter(this, void 0, void 0, function* () {
         const inputs = (0, utils_1.getInputs)();
-        const result = (0, utils_1.performLogic)(inputs);
-        core.setOutput("bool3", result);
+        const regex = (0, utils_1.getRegex)(inputs.filePath, inputs.regex);
+        const version = (0, utils_1.extractVersion)(inputs.filePath, regex);
+        core.setOutput("version", version);
     });
 }
 function run() {
@@ -65,7 +66,7 @@ function run() {
             yield execute();
         }
         catch (error) {
-            core.setFailed(`Action failed with error: ${error instanceof Error ? error.message : error}`);
+            core.setFailed(`${error instanceof Error ? error.message : error}`);
         }
     });
 }
@@ -114,16 +115,41 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getInputs = getInputs;
-exports.performLogic = performLogic;
+exports.getRegex = getRegex;
+exports.extractVersion = extractVersion;
 const core = __importStar(__nccwpck_require__(6201));
+const fs = __importStar(__nccwpck_require__(9896));
 function getInputs() {
     return {
-        bool1: core.getBooleanInput("bool1"),
-        bool2: core.getBooleanInput("bool2"),
+        filePath: core.getInput("file_path", { required: true }),
+        regex: core.getInput("regex"),
     };
 }
-function performLogic(inputs) {
-    return inputs.bool1 === inputs.bool2;
+function getRegex(filePath, regex) {
+    if (regex != null && regex.length > 0) {
+        return new RegExp(regex);
+    }
+    switch (true) {
+        case filePath.endsWith(".csproj"):
+            return /<Version>(.*?)<\/Version>/;
+        case filePath.endsWith("package.json"):
+            return /"version":\s*"(.*?)"/;
+        default:
+            throw new Error(`No regex provided, and no default regex available for file: ${filePath}`);
+    }
+}
+function extractVersion(filePath, regex) {
+    try {
+        const fileContent = fs.readFileSync(filePath, "utf8");
+        const match = fileContent.match(regex);
+        if (match == null || match.length < 2) {
+            throw new Error(`No version found in file: ${filePath}`);
+        }
+        return match[1];
+    }
+    catch (error) {
+        throw new Error(`Failed to extract version from file: ${filePath}. Error: ${error.message}`);
+    }
 }
 //# sourceMappingURL=utils.js.map
 
