@@ -1,19 +1,17 @@
----
-name: 'Template Action'
-author: 'sindre0830'
-description: 'A template action'
+name: Extract Project Version
+author: sindre0830
+description: Extracts the version from any project files
 
 inputs:
-  bool1:
-    description: 'A boolean input'
-    default: 'true'
-  bool2:
-    description: 'Another boolean input'
-    default: 'true'
+  file_path:
+    description: The path to the file to extract the version from
+    required: true
+  custom_regex:
+    description: A custom regex to use for extracting the version
 
 outputs:
-  bool3:
-    description: 'A boolean output'
+  extracted_version:
+    description: The extracted version
 
 runs:
   using: node20
