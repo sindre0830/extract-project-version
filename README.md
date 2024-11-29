@@ -1,51 +1,60 @@
-# [Action Name]
+# Extract Project Version
 
-[Provide a concise description of what this GitHub Action does.]
+**Extract Project Version** is a flexible GitHub Action that extracts version information from project files, such as `.csproj` and `package.json`, using predefined patterns. It also allows users to specify custom regex for additional file types, making it adaptable to various project setups. Ideal for release workflows, this action ensures that the version in your project file has been properly updated before proceeding with tagging or deployment.
 
 ---
 
 ## Usage Guide
 
-To use this action in your workflow, reference it in a step using the `uses` keyword followed by the action reference `your-organization/your-action-name@v1`. Here's an example of how to include it in a workflow:
+To use this action in your workflow, reference it in a step using the `uses` keyword followed by the action reference `sindre0830/extract-project-version@v1`. Here's an example of how to include it in a workflow:
 
 ```yaml
-name: Example Workflow
+name: Release Workflow
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*'
 
 jobs:
-  example_job:
+  verify:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Use this action
-        uses: your-organization/your-action-name@v1
+      - name: Extract version from project file
+        id: get-version
+        uses: sindre0830/extract-project-version@v1
         with:
-          input_name: "example"
+          file_path: './path/to/project.csproj'
+          regex: '<Version>(.*?)</Version>' # optional custom regex
+
+      - name: Verify version matches the tag
+        run: |
+          if [[ "${{ github.ref }}" != "refs/tags/v${{ steps.get-version.outputs.version }}" ]]; then
+            echo "Version mismatch: Expected ${{ github.ref }} but found v${{ steps.get-version.outputs.version }}."
+            exit 1
+          fi
 ```
 
 ---
 
 ### Inputs
 
-| Name          | Description                           | Type     | Default/Required |
-|---------------|---------------------------------------|----------|------------------|
-| `input_name`  | [Description of the input]            | `string` | Required         |
-| `another_input` | [Description of another input]       | `string` | `default_value`  |
+| Name        | Description                                                     | Type     | Default/Required |
+|-------------|-----------------------------------------------------------------|----------|------------------|
+| `file_path` | Path to the file containing the version information to extract. | `string` | Required         |
+| `regex`     | Custom regex pattern to extract the version.                    | `string` | Optional         |
 
 ---
 
 ### Outputs
 
-| Name           | Description                         |
-|----------------|-------------------------------------|
-| `output_name`  | [Description of the output]         |
-| `another_output` | [Description of another output]    |
+| Name      | Description                                                                                     |
+|-----------|-------------------------------------------------------------------------------------------------|
+| `version` | The version extracted from the specified project file. If the file is missing or the version cannot be found, the action will fail with an error. |
 
 ---
 
