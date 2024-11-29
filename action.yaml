@@ -1,6 +1,9 @@
 name: Extract Project Version
 author: sindre0830
 description: Extracts the version from any project files
+branding:
+  icon: package
+  color: black
 
 inputs:
   file_path:
