@@ -6,11 +6,11 @@ inputs:
   file_path:
     description: The path to the file to extract the version from
     required: true
-  custom_regex:
+  regex:
     description: A custom regex to use for extracting the version
 
 outputs:
-  extracted_version:
+  version:
     description: The extracted version
 
 runs:
