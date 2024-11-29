@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "incremental": true,
+    "tsBuildInfoFile": "./lib/.tsbuildinfo",
+
+    "target": "es2016",
+    "lib": ["es6"],
+    "module": "commonjs",
+    "rootDir": "./src",
+    "outDir": "./lib",
+    "declaration": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+
+    "sourceMap": true,
+    "removeComments": true,
+
+    "isolatedModules": true,
+
+    "allowJs": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["tests", "lib", "dist", "node_modules"]
+}

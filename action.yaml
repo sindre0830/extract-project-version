@@ -1,0 +1,20 @@
+---
+name: 'Template Action'
+author: 'sindre0830'
+description: 'A template action'
+
+inputs:
+  bool1:
+    description: 'A boolean input'
+    default: 'true'
+  bool2:
+    description: 'Another boolean input'
+    default: 'true'
+
+outputs:
+  bool3:
+    description: 'A boolean output'
+
+runs:
+  using: node20
+  main: dist/index.js

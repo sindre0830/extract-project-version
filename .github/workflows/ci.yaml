@@ -1,0 +1,74 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches: main
+
+jobs:
+  setup:
+    name: Setup workflow
+    outputs:
+      src_files_changed: ${{ steps.changes.outputs.src_files }}
+    permissions:
+      contents: read
+      pull-requests: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check file changes
+        id: changes
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            src_files:
+              - '.github/workflows/ci.yaml'
+              - 'config/**'
+              - 'src/**'
+              - 'tests/**'
+              - 'package.json'
+              - 'package-lock.json'
+              - 'tsconfig.json'
+  validate-src:
+    name: Validates source
+    needs: setup
+    if: ${{ needs.setup.outputs.src_files_changed == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '23'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm i -g @vercel/ncc
+      - name: Build project
+        run: |
+          npm run build
+
+      - name: Run tests
+        run: |
+          npm test
+
+      - name: Check code style
+        run: |
+          npm run lint-check
+  guard:
+    name: Guard job
+    needs:
+      - setup
+      - validate-src
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail if previous jobs failed
+        if: ${{ failure() }}
+        run: |
+          exit 1
