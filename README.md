@@ -1,6 +1,14 @@
 # Extract Project Version
 
-**Extract Project Version** is a flexible GitHub Action that extracts version information from project files, such as `.csproj` and `package.json`, using predefined patterns. It also allows users to specify custom regex for additional file types, making it adaptable to various project setups. Ideal for release workflows, this action ensures that the version in your project file has been properly updated before proceeding with tagging or deployment.
+**Extract Project Version** is a versatile GitHub Action designed to extract version information from project files, such as `.csproj` and `package.json`, using predefined patterns. It also supports custom regex for other file types, making it adaptable to a wide range of project setups.
+
+This action is particularly useful in release workflows, where it ensures that the version defined in your project file has been properly updated before proceeding with tagging or deployment. By automating this step, it helps enforce versioning standards, reduces the risk of errors, and simplifies the release process.
+
+## Motivation
+
+This action was created to address the challenges of enforcing consistent versioning in project files, particularly in environments with strict branch policies. In many organizations, it’s not always feasible to allow GitHub Actions to bypass these policies, making manual checks for version updates both error-prone and time-consuming.
+
+With this action, teams can automatically verify that the project file version matches the new tag being created. This ensures that proper versioning practices are followed, reducing the risk of oversight and streamlining release workflows where accuracy and consistency are essential.
 
 ---
 
@@ -39,8 +47,6 @@ jobs:
           fi
 ```
 
----
-
 ### Inputs
 
 | Name        | Description                                                     | Type     | Default/Required |
@@ -48,15 +54,11 @@ jobs:
 | `file_path` | Path to the file containing the version information to extract. | `string` | Required         |
 | `regex`     | Custom regex pattern to extract the version.                    | `string` | Optional         |
 
----
-
 ### Outputs
 
 | Name      | Description                                                                                     |
 |-----------|-------------------------------------------------------------------------------------------------|
 | `version` | The version extracted from the specified project file. If the file is missing or the version cannot be found, the action will fail with an error. |
-
----
 
 ### Supported Project Files
 
@@ -118,8 +120,6 @@ The following project files are supported out of the box and do not require a cu
   ```
   Reports linting issues without making changes.
 
----
-
 ### Installing Dependencies
 To install dependencies, use:
 ```bash
@@ -131,8 +131,6 @@ To install as a dev dependency (used only during development):
 npm install package-name --save-dev
 ```
 **Use Case**: Dev dependencies are useful for tools like linters, formatters, and testing frameworks that are not required in production.
-
----
 
 ### Upgrading Node Packages
 To upgrade a package and overwrite the `package-lock.json`:
