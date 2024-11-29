@@ -58,6 +58,17 @@ jobs:
 
 ---
 
+### Supported Project Files
+
+The following project files are supported out of the box and do not require a custom regex:
+
+| Project File   | Default Regex                   |
+|----------------|---------------------------------|
+| `*.csproj`     | `<Version>(.*?)<\/Version>`     |
+| `package.json` | `"version":\s*"(.*?)"`          |
+
+---
+
 ## Development Guide
 
 ### Prerequisites
