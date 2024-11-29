@@ -1,11 +1,13 @@
 import * as core from "@actions/core";
 import { execute } from "../src/main";
-import { getInputs } from "../src/utils";
+import { getInputs, getRegex, extractVersion } from "../src/utils";
 
 jest.mock("@actions/core");
 jest.mock("../src/utils", () => ({
   ...jest.requireActual("../src/utils"),
   getInputs: jest.fn(),
+  getRegex: jest.fn(),
+  extractVersion: jest.fn(),
 }));
 
 describe("Main orchestration (execute)", () => {
@@ -13,19 +15,76 @@ describe("Main orchestration (execute)", () => {
     jest.clearAllMocks();
   });
 
-  it("should execute main logic and set output based on inputs", async () => {
-    (getInputs as jest.Mock).mockReturnValue({ bool1: true, bool2: false });
+  it("should execute main logic and set output with the version", async () => {
+    const mockInputs = {
+      filePath: "./path/to/project.csproj",
+      regex: "",
+    };
+    const mockRegex = /<Version>(.*?)<\/Version>/;
+    const mockVersion = "1.2.3";
+
+    (getInputs as jest.Mock).mockReturnValue(mockInputs);
+    (getRegex as jest.Mock).mockReturnValue(mockRegex);
+    (extractVersion as jest.Mock).mockReturnValue(mockVersion);
 
     await execute();
 
-    expect(core.setOutput).toHaveBeenCalledWith("bool3", false);
+    expect(getInputs).toHaveBeenCalled();
+    expect(getRegex).toHaveBeenCalledWith(
+      mockInputs.filePath,
+      mockInputs.regex,
+    );
+    expect(extractVersion).toHaveBeenCalledWith(mockInputs.filePath, mockRegex);
+    expect(core.setOutput).toHaveBeenCalledWith("version", mockVersion);
   });
 
-  it("should set output to true when bool1 and bool2 are the same", async () => {
-    (getInputs as jest.Mock).mockReturnValue({ bool1: true, bool2: true });
+  it("should fail if no version is found", async () => {
+    const mockInputs = {
+      filePath: "./path/to/project.csproj",
+      regex: "",
+    };
+    const mockRegex = /<Version>(.*?)<\/Version>/;
 
-    await execute();
+    (getInputs as jest.Mock).mockReturnValue(mockInputs);
+    (getRegex as jest.Mock).mockReturnValue(mockRegex);
+    (extractVersion as jest.Mock).mockImplementation(() => {
+      throw new Error("No version found in file: ./path/to/project.csproj");
+    });
 
-    expect(core.setOutput).toHaveBeenCalledWith("bool3", true);
+    await expect(execute()).rejects.toThrow(
+      "No version found in file: ./path/to/project.csproj",
+    );
+
+    expect(getInputs).toHaveBeenCalled();
+    expect(getRegex).toHaveBeenCalledWith(
+      mockInputs.filePath,
+      mockInputs.regex,
+    );
+    expect(extractVersion).toHaveBeenCalledWith(mockInputs.filePath, mockRegex);
+    expect(core.setOutput).not.toHaveBeenCalled();
+  });
+
+  it("should fail if an error occurs during execution", async () => {
+    const mockInputs = {
+      filePath: "./path/to/project.csproj",
+      regex: "",
+    };
+    const mockRegex = /<Version>(.*?)<\/Version>/;
+
+    (getInputs as jest.Mock).mockReturnValue(mockInputs);
+    (getRegex as jest.Mock).mockReturnValue(mockRegex);
+    (extractVersion as jest.Mock).mockImplementation(() => {
+      throw new Error("File read error");
+    });
+
+    await expect(execute()).rejects.toThrow("File read error");
+
+    expect(getInputs).toHaveBeenCalled();
+    expect(getRegex).toHaveBeenCalledWith(
+      mockInputs.filePath,
+      mockInputs.regex,
+    );
+    expect(extractVersion).toHaveBeenCalledWith(mockInputs.filePath, mockRegex);
+    expect(core.setOutput).not.toHaveBeenCalled();
   });
 });
