@@ -1,0 +1,19 @@
+name: "Other"
+description: Use this template if neither of the other templates fit your needs.
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description"
+      description: Provide a clear and concise description of your issue or request.
+      placeholder: What is this issue about?
+    validations:
+      required: true
+  - type: textarea
+    id: reason-for-other-template
+    attributes:
+      label: "Why not use other templates?"
+      description: Explain why the existing templates (Bug Report or Feature Request) did not fit your needs.
+      placeholder: What was missing or inadequate in the other templates?
+    validations:
+      required: true

@@ -1,0 +1,48 @@
+name: "Feature Request"
+description: Suggest a new feature or improvement.
+labels: [
+  "enhancement"
+]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description"
+      description: Provide a clear and concise description of the proposed feature or improvement.
+      placeholder: Briefly explain what the feature should do...
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: "Motivation"
+      description: Explain why this feature would be useful and how it improves the action.
+      placeholder: Why do you think this feature is necessary? Who would benefit from it?
+    validations:
+      required: true
+  - type: textarea
+    id: implementation-details
+    attributes:
+      label: "Proposed Implementation"
+      description: If applicable, describe how you think this feature could be implemented.
+      placeholder: Provide implementation suggestions, if you have any...
+    validations:
+      required: false
+  - type: dropdown
+    id: implement-yourself
+    attributes:
+      label: "Would you like to implement this feature?"
+      description: Indicate whether you would be willing to work on this feature yourself.
+      options:
+        - Yes, I want to implement this
+        - No, I am suggesting this for the maintainers
+    validations:
+      required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: "Additional Context"
+      description: Add any other details, context, or screenshots to help explain your request.
+      placeholder: Anything else you'd like to share?
+    validations:
+      required: false
