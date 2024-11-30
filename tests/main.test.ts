@@ -1,6 +1,6 @@
 import * as core from "@actions/core";
 import { execute } from "../src/main";
-import { getInputs, getRegex, extractVersion } from "../src/utils";
+import { extractVersion, getInputs, getRegex } from "../src/utils";
 
 jest.mock("@actions/core");
 jest.mock("../src/utils", () => ({
