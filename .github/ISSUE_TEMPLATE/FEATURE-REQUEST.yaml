@@ -36,6 +36,7 @@ body:
       options:
         - Yes, I want to implement this
         - No, I am suggesting this for the maintainers
+      default: 1
     validations:
       required: true
   - type: textarea
