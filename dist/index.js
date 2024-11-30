@@ -117,8 +117,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getInputs = getInputs;
 exports.getRegex = getRegex;
 exports.extractVersion = extractVersion;
-const core = __importStar(__nccwpck_require__(6201));
 const fs = __importStar(__nccwpck_require__(9896));
+const core = __importStar(__nccwpck_require__(6201));
 function getInputs() {
     return {
         filePath: core.getInput("file_path", { required: true }),

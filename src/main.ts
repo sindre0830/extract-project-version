@@ -1,5 +1,5 @@
 import * as core from "@actions/core";
-import { getInputs, getRegex, extractVersion } from "./utils";
+import { extractVersion, getInputs, getRegex } from "./utils";
 
 export async function execute(): Promise<void> {
   const inputs = getInputs();

@@ -1,7 +1,7 @@
-import * as core from "@actions/core";
 import * as fs from "fs";
-import { getInputs, getRegex, extractVersion } from "../src/utils";
-import { ActionInputs } from "../src/types";
+import * as core from "@actions/core";
+import type { ActionInputs } from "../src/types";
+import { extractVersion, getInputs, getRegex } from "../src/utils";
 
 jest.mock("@actions/core");
 jest.mock("fs", () => ({

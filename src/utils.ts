@@ -1,6 +1,6 @@
-import * as core from "@actions/core";
 import * as fs from "fs";
-import { ActionInputs } from "./types";
+import * as core from "@actions/core";
+import type { ActionInputs } from "./types";
 
 export function getInputs(): ActionInputs {
   return {
