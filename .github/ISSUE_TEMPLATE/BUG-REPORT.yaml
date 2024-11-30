@@ -20,24 +20,34 @@ body:
       placeholder: v1.0.0
     validations:
       required: true
+  - type: dropdown
+    id: context
+    attributes:
+      label: "Context of Issue"
+      description: Select the context where the issue occurred.
+      multiple: false
+      options:
+        - Pull Request
+        - Push
+        - Scheduled Workflow
+        - Manually Triggered Workflow
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: runner-env
+    attributes:
+      label: "Runner Environment"
+      description: Specify the runner environment (e.g., `ubuntu-latest`, `windows-latest`, `self-hosted`).
+      placeholder: ubuntu-latest
+    validations:
+      required: true
   - type: textarea
     id: usage
     attributes:
       label: "Workflow Usage"
       description: Paste the relevant section of your workflow YAML file where the action is being used.
       render: yaml
-    validations:
-      required: true
-  - type: textarea
-    id: reprod-steps
-    attributes:
-      label: "Reproduction Steps"
-      description: Provide detailed steps to reproduce the issue.
-      value: |
-        1. Set up the workflow as described above.
-        2. Run the workflow on '...'
-        3. Observe the error or unexpected behavior.
-      render: bash
     validations:
       required: true
   - type: textarea
@@ -64,25 +74,3 @@ body:
       render: bash
     validations:
       required: false
-  - type: input
-    id: runner-env
-    attributes:
-      label: "Runner Environment"
-      description: Specify the runner environment (e.g., `ubuntu-latest`, `windows-latest`, `self-hosted`).
-      placeholder: ubuntu-latest
-    validations:
-      required: true
-  - type: dropdown
-    id: context
-    attributes:
-      label: "Context of Issue"
-      description: Select the context where the issue occurred.
-      multiple: false
-      options:
-        - Pull Request
-        - Push
-        - Scheduled Workflow
-        - Manually Triggered Workflow
-        - Other
-    validations:
-      required: true
