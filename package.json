@@ -1,5 +1,5 @@
 {
-  "main": "lib/main.js",
+  "main": ".cache/main.js",
   "version": "1.0.1",
   "scripts": {
     "build": "tsc && ncc build",

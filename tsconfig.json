@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
     "incremental": true,
-    "tsBuildInfoFile": "./lib/.tsbuildinfo",
+    "tsBuildInfoFile": "./.cache/.tsbuildinfo",
 
     "target": "es2016",
     "lib": ["es6"],
     "module": "commonjs",
     "rootDir": "./src",
-    "outDir": "./lib",
+    "outDir": "./.cache",
     "declaration": true,
     "strict": true,
     "esModuleInterop": true,
@@ -29,6 +29,6 @@
 
     "allowJs": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["tests", "lib", "dist", "node_modules"]
+  "include": ["./src/**/*"],
+  "exclude": ["./tests", "./.cache", "./dist", "./node_modules", "./config"]
 }
