@@ -6,12 +6,12 @@
     "test": "jest --config config/jest.config.js",
     "format": "prettier --config config/.prettierrc.json --write \"**/*.ts\"",
     "format-check": "prettier --config config/.prettierrc.json --check \"**/*.ts\"",
-    "lint": "eslint --config config/.eslintrc.json --fix \"src/**/*.ts\" \"tests/**/*.ts\"",
-    "lint-check": "eslint --config config/.eslintrc.json \"src/**/*.ts\" \"tests/**/*.ts\""
+    "lint": "eslint --config config/.eslintrc.js --fix \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "lint-check": "eslint --config config/.eslintrc.js \"src/**/*.ts\" \"tests/**/*.ts\""
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
-    "eslint": "^8.57.1",
+    "eslint": "^9.0.0",
     "eslint-plugin-github": "^5.0.2",
     "eslint-plugin-jest": "^28.9.0",
     "jest": "^29.7.0",
