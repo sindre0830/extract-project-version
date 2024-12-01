@@ -9,6 +9,7 @@ Thank you for your interest in contributing to this project! Please follow these
 - Before you start working on any changes, **create an issue** in the repository describing the feature, bug, or improvement you want to address.
 - Clearly indicate in the issue that you would like to work on it.
 - Wait for a response from a developer to ensure your contribution aligns with the project's needs.
+
 > **Note**: You are welcome to proceed with creating a pull request without explicit developer approval, but be aware that this comes with the risk of the pull request not being merged if the changes are deemed unnecessary or misaligned with the project goals.
 
 ---
@@ -27,7 +28,9 @@ Thank you for your interest in contributing to this project! Please follow these
 - In the **PR description**, include the phrase `Resolves #ISSUE_NUMBER` to link your PR to the corresponding issue. Replace `ISSUE_NUMBER` with the actual issue number.
 
 ### 3.1 PR Title Guidelines
+
 Prefix your PR title with one of the following:
+
 - `feat`: For new features or functionality.
 - `fix`: For bug fixes.
 - `refactor`: For code refactoring.
@@ -37,6 +40,7 @@ Prefix your PR title with one of the following:
 > **Note**: If multiple prefixes apply (e.g., both `feat` and `docs`), use the most significant prefix. For example, use `feat` in this case.
 
 ### 3.2 Description for Large PRs
+
 - If your PR modifies more than **100 lines**, include a short summary of the changes made.
 
 ---
