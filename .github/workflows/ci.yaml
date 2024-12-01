@@ -27,8 +27,10 @@ jobs:
               - './.github/workflows/ci.yaml'
             markdown_files:
               - './**/*.md'
+              - './config/.markdownlint.json'
             src_files:
-              - './config/**'
+              - './config/biome.json'
+              - './config/jest.config.js'
               - './src/**'
               - './tests/**'
               - './package-lock.json'
@@ -47,6 +49,7 @@ jobs:
       - name: Setup markdownlint-cli2
         uses: DavidAnson/markdownlint-cli2-action@v18
         with:
+          config: './config/.markdownlint.json'
           globs: './**/*.md'
 
   validate-src:
