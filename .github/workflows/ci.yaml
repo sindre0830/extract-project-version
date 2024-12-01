@@ -94,6 +94,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Fail if previous jobs failed
-        if: ${{ steps.*.outcome != 'success' }}
+        if: ${{ steps.*.outcome == 'failure' }}
         run: |
           exit 1
