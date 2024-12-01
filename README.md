@@ -74,73 +74,54 @@ The following project files are supported out of the box and do not require a cu
 ## Development Guide
 
 ### Prerequisites
-- Node.js v23 or later.
+
+- Node.js v23 or later
 
 ### Setup
+
 1. Install dependencies:
+
    ```bash
    npm install
    npm i -g @vercel/ncc
    ```
 
 ### Commands
-- **Build the project**:
+
+| Command         | Description                                         | Script                                                                                   |
+|------------------|-----------------------------------------------------|------------------------------------------------------------------------------------------|
+| `npm run build`  | Compiles TypeScript files and prepares the action for publishing. | `tsc && ncc build`                                                                       |
+| `npm run test`   | Executes unit tests using Jest.                     | `jest --config config/jest.config.js`                                                    |
+| `npm run lint`   | Fixes linting issues in the source and test directories. | `npx @biomejs/biome check --config-path ./config/biome.json --write ./src ./tests`       |
+| `npm run lint-check` | Reports linting issues without making changes.      | `npx @biomejs/biome check --config-path ./config/biome.json ./src ./tests`               |
+
+### Managing Dependencies
+
+- To add a dependency:
+
   ```bash
-  npm run build
+  npm install package-name
   ```
-  Compiles TypeScript files and prepares the action for publishing.
 
-- **Run tests**:
+- To add a development dependency:
+
   ```bash
-  npm run test
+  npm install package-name --save-dev
   ```
-  Executes unit tests using Jest.
-
-- **Format code**:
-  ```bash
-  npm run format
-  ```
-  Applies Prettier formatting to TypeScript files.
-
-- **Check formatting**:
-  ```bash
-  npm run format-check
-  ```
-  Verifies that all TypeScript files follow the Prettier configuration.
-
-- **Lint code**:
-  ```bash
-  npm run lint
-  ```
-  Fixes linting issues in the source and test directories.
-
-- **Check for linting issues**:
-  ```bash
-  npm run lint-check
-  ```
-  Reports linting issues without making changes.
-
-### Installing Dependencies
-To install dependencies, use:
-```bash
-npm install package-name
-```
-
-To install as a dev dependency (used only during development):
-```bash
-npm install package-name --save-dev
-```
-**Use Case**: Dev dependencies are useful for tools like linters, formatters, and testing frameworks that are not required in production.
 
 ### Upgrading Node Packages
-To upgrade a package and overwrite the `package-lock.json`:
+
 1. Update the package version in `package.json` or run:
+
    ```bash
    npm install package-name@latest
    ```
-2. If `package-lock.json` needs to be reset, run:
+
+2. Reset `package-lock.json` if necessary:
+
    ```bash
    rm package-lock.json
    npm install
    ```
+
    This regenerates the lock file with the latest versions allowed by `package.json`.
