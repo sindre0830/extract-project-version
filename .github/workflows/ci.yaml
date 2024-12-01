@@ -8,7 +8,8 @@ jobs:
   setup:
     name: Setup workflow
     outputs:
-      src_files_changed: ${{ steps.changes.outputs.src_files }}
+      markdown_files_changed: ${{ steps.changes.outputs.markdown_files == 'true' || steps.changes.outputs.workflow_file == 'true' }}
+      src_files_changed: ${{ steps.changes.outputs.src_files == 'true' || steps.changes.outputs.workflow_file == 'true' }}
     permissions:
       contents: read
       pull-requests: read
@@ -22,17 +23,37 @@ jobs:
         uses: dorny/paths-filter@v3
         with:
           filters: |
+            workflow_file:
+              - './.github/workflows/ci.yaml'
+            markdown_files:
+              - './**/*.md'
+              - './config/.markdownlint.json'
             src_files:
-              - '.github/workflows/ci.yaml'
-              - 'config/**'
-              - 'src/**'
-              - 'tests/**'
-              - 'package.json'
-              - 'package-lock.json'
-              - 'tsconfig.json'
+              - './config/biome.json'
+              - './config/jest.config.js'
+              - './src/**'
+              - './tests/**'
+              - './package-lock.json'
+              - './package.json'
+              - './tsconfig.json'
+
+  validate-markdown:
+    name: Validates markdown files
+    needs: setup
+    if: ${{ needs.setup.outputs.markdown_files_changed == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup markdownlint-cli2
+        uses: DavidAnson/markdownlint-cli2-action@v18
+        with:
+          config: './config/.markdownlint.json'
+          globs: './**/*.md'
 
   validate-src:
-    name: Validates source
+    name: Validates source files
     needs: setup
     if: ${{ needs.setup.outputs.src_files_changed == 'true' }}
     runs-on: ubuntu-latest
@@ -67,11 +88,12 @@ jobs:
     name: Guard job
     needs:
       - setup
+      - validate-markdown
       - validate-src
     if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
       - name: Fail if previous jobs failed
-        if: ${{ failure() }}
+        if: ${{ contains(join(needs.*.result, ','), 'failure') }}
         run: |
           exit 1
