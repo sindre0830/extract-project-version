@@ -47,7 +47,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup markdownlint-cli2
-        uses: DavidAnson/markdownlint-cli2-action@v18
+        uses: DavidAnson/markdownlint-cli2-action@v19
         with:
           config: './config/.markdownlint.json'
           globs: './**/*.md'
